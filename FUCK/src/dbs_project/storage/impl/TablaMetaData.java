@@ -43,7 +43,7 @@ public class TablaMetaData implements TableMetaData{
 
     @Override
     public int getRowCount() {
-        return Data.FilCursor.FilasEnlazadas.size();
+        return Data.FilCursor.Filas.size();
     }
 
     @Override

@@ -11,11 +11,13 @@ import dbs_project.structures.Stack;
 /**
  *
  * @author max
+ * @param <T>
  */
 public class Pila<T> implements Stack<T>{
     public Nodo top;
     public int size;
     public int pos;
+    public boolean respuesta;
     
     public Pila(){
         this.top=null;
@@ -83,5 +85,20 @@ public class Pila<T> implements Stack<T>{
     }
     public int posicion(){
         return pos;
+    }
+    public boolean NextVerdadero(){
+        if(top==null || size==0){
+            System.out.println("Pila vacia");
+            respuesta = false;
+            return respuesta;
+        }
+        else{
+            Object retornar =top.getElemento();
+            top=top.getNext();
+            size--;
+            pos++;
+            respuesta=true;
+            return true;}
+          
     }
 }

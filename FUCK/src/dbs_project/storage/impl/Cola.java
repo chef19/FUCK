@@ -52,7 +52,7 @@ public class Cola<T> implements Queue<T>{
         }
         return (T) front.getElemento();
     }
-
+    
     @Override
     public T first() {
         if(front.getElemento()==null){
@@ -93,6 +93,19 @@ public class Cola<T> implements Queue<T>{
     }
     public int posicion(){
         return pos;
+    }
+    
+    public boolean dequeueBoolean(){
+         if (size==0){
+            return false;
+        }
+        else{      
+            System.out.println(front.getElemento());
+            front=front.getNext();
+            size--;
+            pos++;
+        }
+        return true;
     }
     
 }
