@@ -32,20 +32,29 @@ public class Columna implements Column{
     }
 
     @Override
-    public int getInteger(int index) throws IndexOutOfBoundsException, ClassCastException {
+    public Integer getInteger(int index) throws IndexOutOfBoundsException, ClassCastException {
         Columna.goToPos(index);
+        if(Columna.getElement()==null){
+            return null;
+        }
         return (int) Columna.getElement();
     }
 
     @Override
-    public boolean getBoolean(int index) throws IndexOutOfBoundsException, ClassCastException {
+    public Boolean getBoolean(int index) throws IndexOutOfBoundsException, ClassCastException {
         Columna.goToPos(index);
+        if(Columna.getElement()==null){
+            return null;
+        }
         return (boolean) Columna.getElement();    
     }
 
     @Override
-    public double getDouble(int index) throws IndexOutOfBoundsException, ClassCastException {
+    public Double getDouble(int index) throws IndexOutOfBoundsException, ClassCastException {
         Columna.goToPos(index);
+        if(Columna.getElement()==null){
+            return null;
+        }
         return (double) Columna.getElement();
     }
 
