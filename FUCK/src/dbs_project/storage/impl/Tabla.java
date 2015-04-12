@@ -372,9 +372,9 @@ public class Tabla implements Table{
     
     System.out.println("*****************************************"); 
     System.out.println("*****************************************");
-    //tabla.deleteRow(2);
-    //System.out.println("Eliminar ID 3");
-    //System.out.println("Buscando ID 2 "+tabla.getRow(2));
+    tabla.deleteRow(4);
+    System.out.println("Eliminar ID 4");
+    System.out.println("Buscando ID 4 "+tabla.getRow(4));
     
 
     //**********************/
