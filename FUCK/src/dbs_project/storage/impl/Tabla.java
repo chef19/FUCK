@@ -31,16 +31,20 @@ public class Tabla implements Table{
     CursorColumna ColumnaCursor;
     static ListaEnlazada Columnas;
     FilaCursor FilCursor;
+    static int ID = 0;
+    TableMetaData Datos;
     
     public Row Fila;
         
     
-    public Tabla(){
+    public Tabla(String Name){
+        Datos = new TablaMetaData(ID, Name);
         Columnas = new ListaEnlazada();
         FilEnlazada = new ListaEnlazada();
         FilDobleEnlazada= new ListaDobleEnlazada();
         FilQueue = new Cola();
         FilStack = new Pila();
+        ID++;
     }
     @Override
     public void renameColumn(int columnId, String newColumnName) throws ColumnAlreadyExistsException, NoSuchColumnException {
@@ -344,7 +348,7 @@ public class Tabla implements Table{
 
     @Override
     public TableMetaData getTableMetaData() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Datos;
     }
 
     @Override
@@ -532,7 +536,7 @@ public class Tabla implements Table{
         Lista5.append(12);
         Lista5.append(13);
         //*********************
-        Tabla tabla=new Tabla();
+        Tabla tabla=new Tabla("Tabla 1");
         //*********************
         Fila Fila1 =new Fila(Lista1);
         Fila Fila2 =new Fila(Lista2);
