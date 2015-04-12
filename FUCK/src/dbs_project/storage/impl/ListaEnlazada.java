@@ -41,10 +41,20 @@ public class ListaEnlazada <T> implements LinearList<T>{
 
     @Override
     public void append(T element) {
-        Nodo newNode = new Nodo(element);
-        this.tail.setNext(newNode);
-        this.tail = newNode;
-        this.size++;
+        if(size==0){
+            Nodo newNode = new Nodo(element);
+            this.head=newNode;
+            this.current=this.head;
+            this.tail=this.current;
+            this.size++;
+        }
+        else{
+            Nodo newNode = new Nodo(element);
+            this.tail.setNext(newNode);
+            this.tail=newNode;
+            size++;
+        
+        }
     }
 
     @Override

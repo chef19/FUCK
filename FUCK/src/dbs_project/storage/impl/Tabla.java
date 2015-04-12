@@ -77,20 +77,33 @@ public class Tabla implements Table{
     @Override
     public void deleteRow(int rowID) throws NoSuchRowException {
         FilCursor = new FilaCursor(FilEnlazada);
-        Fila Fils;
-        int i=0;
-        while(i<=FilCursor.FilasEnlazadas.size()){
-            FilCursor.FilasEnlazadas.goToPos(i-1);
-            Fils= (Fila) FilCursor.FilasEnlazadas.current.getElemento();
-            int compara=Fils.getMetaData().getId();    
-            if (compara==rowID){
-                FilEnlazada.remove();
-                return;
+
+            if(rowID>=FilCursor.FilasEnlazadas.size()){
+                throw new NoSuchRowException("Id no se encuentra en tabla");
             }
             else{
-                i++;
+                Fila Fils;
+                int i=0;
+                Fila temp = (Fila) FilCursor.FilasEnlazadas.head.getElemento();
+                System.out.println("temp: "+temp.getMetaData().getId());
+                if(temp.getMetaData().getId()==rowID){
+                    FilCursor.FilasEnlazadas.remove();
+                }
+                else{
+                        while(i<FilCursor.FilasEnlazadas.size()){
+                            FilCursor.FilasEnlazadas.goToPos(i-1);
+                            Fils= (Fila) FilCursor.FilasEnlazadas.current.getElemento();
+                            int compara=Fils.getMetaData().getId();
+
+                            if (compara==rowID){
+                                FilCursor.FilasEnlazadas.remove();
+                            }
+                            else{
+                                i++;
+                            }
+                        }
+                }
             }
-        }
     }
 
     @Override
@@ -144,11 +157,9 @@ public class Tabla implements Table{
     public Row getRow(int rowId) throws NoSuchRowException {
       
             FilCursor = new FilaCursor(FilEnlazada);
-            System.out.println(FilCursor.FilasEnlazadas.size());
 
             if(rowId>=FilCursor.FilasEnlazadas.size()){
-                System.out.println("ENTRAA");
-                throw new UnsupportedOperationException("Id no se encuentra en tabla");
+                throw new NoSuchRowException("Id no se encuentra en tabla");
             }
             else{
                 Fila Fils;
@@ -161,9 +172,7 @@ public class Tabla implements Table{
                 else{
                         while(i<FilCursor.FilasEnlazadas.size()){
                             FilCursor.FilasEnlazadas.goToPos(i-1);
-                            //System.out.println(FilCursor.FilasEnlazadas.getPosition());
                             Fils= (Fila) FilCursor.FilasEnlazadas.current.getElemento();
-                            //System.out.println("ID "+Fils.getMetaData().getId());
                             int compara=Fils.getMetaData().getId();
 
                             if (compara==rowId){
@@ -363,9 +372,9 @@ public class Tabla implements Table{
     
     System.out.println("*****************************************"); 
     System.out.println("*****************************************");
-    /**tabla.deleteRow(2);
-    System.out.println("Eliminar ID 3");
-    System.out.println("Buscando ID 2 "+tabla.getRow(3));
+    //tabla.deleteRow(2);
+    //System.out.println("Eliminar ID 3");
+    //System.out.println("Buscando ID 2 "+tabla.getRow(2));
     
 
     //**********************/
