@@ -39,7 +39,7 @@ public class Columna implements Column{
 
     @Override
     public Integer getInteger(int index) throws IndexOutOfBoundsException, ClassCastException {
-        Columna.goToPos(index);
+        Columna.goToPos(index-1);
         if(Columna.getElement()==null){
             return null;
         }
@@ -48,7 +48,7 @@ public class Columna implements Column{
 
     @Override
     public Boolean getBoolean(int index) throws IndexOutOfBoundsException, ClassCastException {
-        Columna.goToPos(index);
+        Columna.goToPos(index-1);
         if(Columna.getElement()==null){
             return null;
         }
@@ -57,7 +57,7 @@ public class Columna implements Column{
 
     @Override
     public Double getDouble(int index) throws IndexOutOfBoundsException, ClassCastException {
-        Columna.goToPos(index);
+        Columna.goToPos(index-1);
         if(Columna.getElement()==null){
             return null;
         }
@@ -66,7 +66,7 @@ public class Columna implements Column{
 
     @Override
     public Date getDate(int index) throws IndexOutOfBoundsException, ClassCastException {
-        Columna.goToPos(index);
+        Columna.goToPos(index-1);
         if(Columna.getElement()==null){
             return null;
         }
@@ -75,7 +75,7 @@ public class Columna implements Column{
 
     @Override
     public String getString(int index) throws IndexOutOfBoundsException {
-        Columna.goToPos(index);
+        Columna.goToPos(index-1);
         if(Columna.getElement()==null){
             return null;
         }
@@ -84,7 +84,7 @@ public class Columna implements Column{
 
     @Override
     public Object getObject(int index) throws IndexOutOfBoundsException {
-        Columna.goToPos(index);
+        Columna.goToPos(index-1);
         if(Columna.getElement()==null){
             return null;
         }
@@ -93,7 +93,7 @@ public class Columna implements Column{
 
     @Override
     public boolean isNull(int index) throws IndexOutOfBoundsException {
-        Columna.goToPos(index);
+        Columna.goToPos(index-1);
         if(Columna.getElement()==null){
             return true;
         }
