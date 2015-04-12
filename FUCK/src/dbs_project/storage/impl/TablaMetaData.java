@@ -38,7 +38,7 @@ public class TablaMetaData implements TableMetaData{
             Map.Entry e = (Map.Entry)it.next();
             System.out.println(e.getKey() + " " + e.getValue());
         }
-        return null;
+        return map;
     }
 
     @Override
