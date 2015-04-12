@@ -15,18 +15,12 @@ import dbs_project.storage.RowMetaData;
 public class FilaData implements RowMetaData{
     
     public ListaEnlazada Fila=null;
-    public Fila FilaRealizada=null;
     public int ID;
-    public int NuevoI;
     
     
     public FilaData(ListaEnlazada Fila,int ID){
         this.ID=ID;
         this.Fila=Fila;
-    }
-    public FilaData(Fila Fila,int ID){
-        FilaRealizada=Fila;
-        this.NuevoI=ID;
     }
 
     @Override

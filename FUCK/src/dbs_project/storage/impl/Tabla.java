@@ -266,35 +266,36 @@ public class Tabla implements Table{
     @Override
     public void updateRow(int rowID,Row newRow) throws SchemaMismatchException, NoSuchRowException {
         FilCursor = new FilaCursor(FilEnlazada);
-        ListaEnlazada tempLista= new ListaEnlazada();
-
-            if(rowID>=FilCursor.FilasEnlazadas.size()){
-                throw new NoSuchRowException("ID no se encuentra en tabla");
+        if(rowID>=FilCursor.FilasEnlazadas.size()){
+            throw new NoSuchRowException("Id no se encuentra en tabla");
+        }
+        else{
+            Fila Fila1;
+            int i=0;
+            Fila temp = (Fila) FilCursor.FilasEnlazadas.head.getElemento();
+            System.out.println("temp: "+temp.getMetaData().getId());
+            if(temp.getMetaData().getId()==rowID){
+                System.out.println("Cambia Primer Elemento!!");
+                FilCursor.FilasEnlazadas.head.setElemento(newRow);
+                return;
             }
             else{
-                Fila Fils;
-                int i=0;
-                Fila temp = (Fila) FilCursor.FilasEnlazadas.head.getElemento();
-                System.out.println("temp: "+temp.getMetaData().getId());
-                if(temp.getMetaData().getId()==rowID){
-                    Fila ElementoACambiar = (Fila) FilCursor.FilasEnlazadas.current.getElemento();
-                        FilCursor.FilasEnlazadas.current.setElemento(newRow);
+                while(i<FilCursor.FilasEnlazadas.size()){
+                    FilCursor.FilasEnlazadas.goToPos(i-1);
+                    Fila1= (Fila) FilCursor.FilasEnlazadas.current.getElemento();
+                    int compara=Fila1.getMetaData().getId();
+                    if (compara==rowID){
+                        System.out.println("Cambia Elemento!!");
+                        Fila1 = (Fila) FilCursor.FilasEnlazadas.current.getElemento();
+                        FilCursor.FilasEnlazadas.head.setElemento(newRow);
+                        return;
+                    }
+                    else{
+                        i++;
+                    }
                 }
-                else{
-                        while(i<FilCursor.FilasEnlazadas.size()){
-                            FilCursor.FilasEnlazadas.goToPos(i-1);
-                            Fils= (Fila) FilCursor.FilasEnlazadas.current.getElemento();
-                            int compara=Fils.getMetaData().getId();
-
-                            if (compara==rowID){
-                                FilCursor.FilasEnlazadas.current.setElemento(newRow);
-                            }
-                            else{
-                                i++;
-                            }
-                        }
-                }
-            }    
+            }
+        }
     }
     @Override
     public void updateRows(IntIterator rowIDs, RowCursor newRows) throws SchemaMismatchException, NoSuchRowException {
@@ -348,11 +349,17 @@ public class Tabla implements Table{
 
     @Override
     public RowCursor getRows(DataStructure type) {
+        
+        FilDobleEnlazada=new ListaDobleEnlazada();
+        FilQueue = new Cola();
+        FilStack = new Pila();
+        
         if(type==DataStructure.DOUBLYLINKEDLIST){
             int i;
-            for(i=0;i<FilEnlazada.size();i--){
+            
+            for(i=0;i<FilEnlazada.size();i++){
+                FilEnlazada.goToPos(i-1);
                 FilDobleEnlazada.append(FilEnlazada.current);
-                FilEnlazada.remove();
             }
             FilCursor =new FilaCursor(FilDobleEnlazada);
             return FilCursor;
@@ -363,20 +370,19 @@ public class Tabla implements Table{
         }
         if(type==DataStructure.QUEUE){
             int i;
-            for(i=0;i<FilEnlazada.size();i--){
+            for(i=0;i<FilEnlazada.size();i++){
+                FilEnlazada.goToPos(i-1);
                 FilQueue.enqueue(FilEnlazada.current);
-                FilEnlazada.remove();
             }
+            FilCursor =new FilaCursor(FilQueue);
+            return FilCursor;
         }
         if(type==DataStructure.STACK){
             int i;
-            for(i=0;i<FilEnlazada.size();i--){
-                FilEnlazada.goToPos(i);
-                Fila temp =(Fila) FilEnlazada.current.getElemento();
-                System.out.println(temp.getMetaData().getId());
-                FilStack.push(FilEnlazada.current.getElemento());
+            for(i=0;i<FilEnlazada.size();i++){
+                FilEnlazada.goToPos(i-1);
+                FilStack.push(FilEnlazada.current);
             }
-            System.out.println("SAAALIOOOOOOOOOOO");
             FilCursor =new FilaCursor(FilStack);
             return FilCursor;
         }
@@ -403,7 +409,7 @@ public class Tabla implements Table{
     public static void main(String[] args) throws SchemaMismatchException, NoSuchRowException, ColumnAlreadyExistsException, NoSuchColumnException {
         // TODO code application logic here
     
-        ListaEnlazada Lista1= new ListaEnlazada();
+       /** ListaEnlazada Lista1= new ListaEnlazada();
         ListaEnlazada Lista2= new ListaEnlazada();
         ListaEnlazada Lista3= new ListaEnlazada();
         ListaEnlazada Lista4= new ListaEnlazada();
@@ -485,10 +491,10 @@ public class Tabla implements Table{
         System.out.println("*****************************************"); 
         System.out.println("*****************************************"); 
         
-        System.out.println("Columna ID 2: "+tabla.getColumn(3).getMetaData().getName());
+        System.out.println("Columna ID 3: "+tabla.getColumn(3).getMetaData().getName());
         tabla.renameColumn(3, "NuevoNombre");
-        System.out.println("Columna ID 2: "+tabla.getColumn(3).getMetaData().getName());
-        /**
+        System.out.println("Columna ID 3: "+tabla.getColumn(3).getMetaData().getName());
+        
         System.out.println("Cantidad de Columnas: "+Columnas.size());
         System.out.println("Columna ID 3: "+tabla.getColumn(3).getMetaData().getId());
         //System.out.println("Estructura de Datos de Cursor  "+Cursor.getType());
@@ -499,7 +505,7 @@ public class Tabla implements Table{
         System.out.println("Eliminar ID 4");
         System.out.println("Buscando ID 4 "+tabla.getColumn(4));
         
-        /**
+        */
         ListaEnlazada Lista1= new ListaEnlazada();
         ListaEnlazada Lista2= new ListaEnlazada();
         ListaEnlazada Lista3= new ListaEnlazada();
@@ -522,6 +528,9 @@ public class Tabla implements Table{
         Lista4.append(10);
 
         Lista5.append(10);
+        Lista5.append(11);
+        Lista5.append(12);
+        Lista5.append(13);
         //*********************
         Tabla tabla=new Tabla();
         //*********************
@@ -529,13 +538,12 @@ public class Tabla implements Table{
         Fila Fila2 =new Fila(Lista2);
         Fila Fila3 =new Fila(Lista3);
         Fila Fila4 =new Fila(Lista4);
-        Fila Fila5 =new Fila(Lista5);
+        Fila Fila5 =new Fila(Lista5,3);
 
         FilasD.append(Fila1);// 0
         FilasD.append(Fila2);// 1
         FilasD.append(Fila3);// 2
         FilasD.append(Fila4);// 3
-        FilasD.append(Fila5);// 4
         //*********************    
         System.out.println("Añade Fila4");           //3
         System.out.println(tabla.addRow(Fila4));
@@ -546,20 +554,16 @@ public class Tabla implements Table{
         System.out.println("Añade Fila1");           //0
         System.out.println(tabla.addRow(Fila1));
 
-
-
         System.out.println("Añade Fila2");           //1
         System.out.println(tabla.addRow(Fila2));
 
-        System.out.println("Añade Fila5");           //4
-        System.out.println(tabla.addRow(Fila5));
 
         //*********************
         System.out.println("Cantidad de Filas");
         System.out.println(FilEnlazada.size());
         //*********************
 
-        System.out.println("****************************************");
+        /**System.out.println("****************************************");
         FilaCursor Cursor = new FilaCursor(FilEnlazada);
         Cursor.next();
         System.out.println("****************************************");
@@ -581,18 +585,29 @@ public class Tabla implements Table{
         Cursor.next();
         System.out.println("Posicion: "+Cursor.getCursorPosition());
         System.out.println("ID: "+Cursor.getMetaData().getId()); 
-
+        */
+        
         System.out.println("*****************************************"); 
         System.out.println("*****************************************"); 
-
-        System.out.println("Fila ID 5: "+tabla.getRow(5).getMetaData().getId());
+        
+        System.out.println("Fila ID 3: "+tabla.getRow(3).getInteger(0));      
+        tabla.updateRow(3, Fila5);
+        System.out.println("Fila ID 3: "+tabla.getRow(3).getInteger(0));
         //System.out.println("Estructura de Datos de Cursor  "+Cursor.getType());
-
+        FilEnlazada.goToStart();
+        Fila temp22 = (Fila) FilEnlazada.current.getElemento();
+        System.out.println("Imprime"+temp22.getMetaData().getId());
+        
         System.out.println("*****************************************"); 
         System.out.println("*****************************************");
-        tabla.deleteRow(4);
-        System.out.println("Eliminar ID 4");
-        System.out.println("Buscando ID 4 "+tabla.getRow(4));
+        
+        System.out.println(tabla.getRows(DataStructure.DOUBLYLINKEDLIST).getType());
+        System.out.println(tabla.getRows(DataStructure.LINKEDLIST).getType());
+        System.out.println(tabla.getRows(DataStructure.QUEUE).getType());
+        System.out.println(tabla.getRows(DataStructure.STACK).getType());
+        //tabla.deleteRow(4);
+        //System.out.println("Eliminar ID 4");
+       // System.out.println("Buscando ID 4 "+tabla.getRow(4));
         
 
     //**********************/

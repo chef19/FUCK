@@ -26,55 +26,55 @@ public class Fila implements Row {
         ID++;
     }
     public Fila(ListaEnlazada Fila, int ID){
-            this.Fila = Fila;    
-            Datos= new FilaData(Fila,ID);
-        }
+        this.Fila = Fila;    
+        Datos= new FilaData(Fila,ID);
+    }
     
     @Override
     public RowMetaData getMetaData() {
       return Datos;
     }
-
+    
     @Override
     public Integer getInteger(int index) throws IndexOutOfBoundsException, ClassCastException {
-            Fila.goToPos(index-1);
+            Fila.goToPos(index);
             return (Integer) Fila.getElement();
         
     }
 
     @Override
     public Boolean getBoolean(int index) throws IndexOutOfBoundsException, ClassCastException {
-        Fila.goToPos(index-1);
+        Fila.goToPos(index);
         return (Boolean) Fila.getElement();
     }
 
     @Override
     public Double getDouble(int index) throws IndexOutOfBoundsException, ClassCastException {
-        Fila.goToPos(index-1);
+        Fila.goToPos(index);
         return (Double) Fila.getElement();
     }
 
     @Override
     public Date getDate(int index) throws IndexOutOfBoundsException, ClassCastException {
-        Fila.goToPos(index-1);
+        Fila.goToPos(index);
         return (Date) Fila.getElement();
     }
 
     @Override
     public String getString(int index) throws IndexOutOfBoundsException {
-        Fila.goToPos(index-1);
+        Fila.goToPos(index);
         return (String) Fila.getElement();
     }
 
     @Override
     public Object getObject(int index) throws IndexOutOfBoundsException {
-        Fila.goToPos(index-1);
+        Fila.goToPos(index);
         return (Object) Fila.getElement();
     }
 
     @Override
     public boolean isNull(int index) throws IndexOutOfBoundsException {
-        Fila.goToPos(index-1);
+        Fila.goToPos(index);
         if(Fila.getElement()==null){
             return true;
         }
@@ -85,7 +85,38 @@ public class Fila implements Row {
 
     @Override
     public LinearDataStructure<?> asLinearDataStructure(DataStructure type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Pila NuevaPila= new Pila();
+        Cola NuevaCola= new Cola();
+        ListaDobleEnlazada NuevaLista= new ListaDobleEnlazada();
+        int i=0;
+        if (type==DataStructure.STACK){
+            while(i>Fila.size){
+                NuevaPila.push(Fila.current);
+                Fila.next();
+                i++;
+            }
+            return NuevaPila;
+        }
+        else if (type==DataStructure.QUEUE){
+            while(i>Fila.size){
+                NuevaCola.enqueue(Fila.current);
+                Fila.next();
+                i++;
+            }
+            return NuevaCola;
+        }
+        else if (type==DataStructure.LINKEDLIST){
+            return Fila;
+        }
+        else if (type==DataStructure.DOUBLYLINKEDLIST){
+            while(i>Fila.size){
+                NuevaLista.append(Fila.current);
+                Fila.next();
+                i++;
+            }
+            return NuevaLista;
+        }
+        return null;
     }
     
     

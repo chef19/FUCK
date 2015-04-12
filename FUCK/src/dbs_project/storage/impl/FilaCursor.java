@@ -212,7 +212,22 @@ public class FilaCursor implements RowCursor{
 
     @Override
     public LinearDataStructure<?> asLinearDataStructure(DataStructure type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(FilasEnlazadas!=null){
+            fila=(Fila) FilDobleEnlazada.current.getElemento();
+            return fila.asLinearDataStructure(type);
+        }
+        else if(FilDobleEnlazada!=null){
+            fila=(Fila) FilDobleEnlazada.current.getElemento();
+            return fila.asLinearDataStructure(type);
+        }
+        else if(FilQueue!=null){
+            fila=(Fila) FilDobleEnlazada.current.getElemento();
+            return fila.asLinearDataStructure(type);
+        }
+        else{
+            fila=(Fila) FilDobleEnlazada.current.getElemento();
+            return fila.asLinearDataStructure(type);
+        }
     }
 
     @Override
@@ -269,7 +284,18 @@ public class FilaCursor implements RowCursor{
 
     @Override
     public DataStructure getType() {
-        return DataStructure.LINKEDLIST;
+        if(FilasEnlazadas!=null){
+            return DataStructure.LINKEDLIST;
+        }
+        else if(FilDobleEnlazada!=null){
+            return DataStructure.DOUBLYLINKEDLIST;
+        }
+        else if(FilQueue!=null){
+            return DataStructure.QUEUE;
+        }
+        else{
+            return DataStructure.STACK;
+        }
     }
     
     

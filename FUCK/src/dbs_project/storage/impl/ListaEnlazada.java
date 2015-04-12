@@ -105,7 +105,7 @@ public class ListaEnlazada <T> implements LinearList<T>{
     @Override
     public void goToPos(int pos) throws IndexOutOfBoundsException{
         if (pos < -1 || pos >= this.size) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException("Fuera de indice");
         }   
         else if (pos > this.position) {
             while (pos > this.position) {
