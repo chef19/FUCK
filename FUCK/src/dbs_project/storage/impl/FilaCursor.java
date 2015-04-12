@@ -17,63 +17,196 @@ import org.apache.commons.collections.primitives.IntIterator;
  * @author Kevin Matamoros
  */
 public class FilaCursor implements RowCursor{
-    public  Fila fila;
-    public ListaEnlazada Filas;
-    public ListaEnlazada FilaFinal;
+    public Fila fila;
+    public ListaEnlazada FilasEnlazadas;
+    public ListaEnlazada FilasEnlazadasFinal;
+    public ListaDobleEnlazada FilDobleEnlazada;
+    public ListaDobleEnlazada FilDobleEnlazadaFinal;
+    public Cola FilQueue;
+    public Cola FilQueueFinal;
+    public Pila FilStack;
+    public Pila FilStackFinal;
     
     
     public FilaCursor(ListaEnlazada Filas){
         this.fila=null;
-        this.Filas=Filas;
-        FilaFinal=new ListaEnlazada();
-        
+        FilDobleEnlazada=null;
+        FilQueue=null;
+        FilStack=null;
+        this.FilasEnlazadas=Filas;
+        FilasEnlazadasFinal=new ListaEnlazada();        
     }
+    public FilaCursor(ListaDobleEnlazada Filas){
+        this.fila=null;
+        this.FilDobleEnlazada=Filas;
+        FilDobleEnlazadaFinal=new ListaDobleEnlazada();}
+    public FilaCursor(Cola Filas){
+        this.fila=null;
+        this.FilQueue=Filas;
+        FilQueueFinal=new Cola();}
+    public FilaCursor(Pila Filas){
+        this.fila=null;
+        this.FilStack=Filas;
+        FilStackFinal=new Pila();}
+    
     @Override
     public RowMetaData getMetaData() {
-        fila=(Fila) Filas.current.getElemento();
-        return fila.getMetaData();
+        if(FilasEnlazadas!=null){
+            fila=(Fila) FilasEnlazadas.current.getElemento();
+            return fila.getMetaData();
+        }
+        else if(FilDobleEnlazada!=null){
+            fila=(Fila) FilDobleEnlazada.current.getElemento();
+            return fila.getMetaData();
+        }
+        else if(FilQueue!=null){
+            fila=(Fila) FilQueue.current.getElemento();
+            return fila.getMetaData();
+        }
+        else{
+            fila=(Fila) FilStack.top.getElemento();
+            return fila.getMetaData();
+        }
     }
 
     @Override
     public Integer getInteger(int index) throws IndexOutOfBoundsException, ClassCastException {
-         fila=(Fila) Filas.current.getElemento();
-         return (Integer) fila.getInteger(index);
+        if(FilasEnlazadas!=null){
+            fila=(Fila) FilasEnlazadas.current.getElemento();
+            return fila.getInteger(index);
+        }
+        else if(FilDobleEnlazada!=null){
+            fila=(Fila) FilDobleEnlazada.current.getElemento();
+            return fila.getInteger(index);
+        }
+        else if(FilQueue!=null){
+            fila=(Fila) FilQueue.current.getElemento();
+            return fila.getInteger(index);
+        }
+        else{
+            fila=(Fila) FilStack.top.getElemento();
+            return fila.getInteger(index);
+        }
     }
 
     @Override
     public Boolean getBoolean(int index) throws IndexOutOfBoundsException, ClassCastException {
-        fila=(Fila) Filas.current.getElemento();
-        return (Boolean) fila.getBoolean(index);
+        if(FilasEnlazadas!=null){
+            fila=(Fila) FilasEnlazadas.current.getElemento();
+            return fila.getBoolean(index);
+        }
+        else if(FilDobleEnlazada!=null){
+            fila=(Fila) FilDobleEnlazada.current.getElemento();
+            return fila.getBoolean(index);
+        }
+        else if(FilQueue!=null){
+            fila=(Fila) FilQueue.current.getElemento();
+            return fila.getBoolean(index);
+        }
+        else{
+            fila=(Fila) FilStack.top.getElemento();
+            return fila.getBoolean(index);
+        }
     }
 
     @Override
     public Double getDouble(int index) throws IndexOutOfBoundsException, ClassCastException {
-        fila=(Fila) Filas.current.getElemento();
-        return (Double) fila.getDouble(index);
+        if(FilasEnlazadas!=null){
+            fila=(Fila) FilasEnlazadas.current.getElemento();
+            return fila.getDouble(index);
+        }
+        else if(FilDobleEnlazada!=null){
+            fila=(Fila) FilDobleEnlazada.current.getElemento();
+            return fila.getDouble(index);
+        }
+        else if(FilQueue!=null){
+            fila=(Fila) FilQueue.current.getElemento();
+            return fila.getDouble(index);
+        }
+        else{
+            fila=(Fila) FilStack.top.getElemento();
+            return fila.getDouble(index);
+        }
     }
 
     @Override
     public Date getDate(int index) throws IndexOutOfBoundsException, ClassCastException {
-        fila=(Fila) Filas.current.getElemento();
-        return (Date) fila.getDate(index);
+        if(FilasEnlazadas!=null){
+            fila=(Fila) FilasEnlazadas.current.getElemento();
+            return fila.getDate(index);
+        }
+        else if(FilDobleEnlazada!=null){
+            fila=(Fila) FilDobleEnlazada.current.getElemento();
+            return fila.getDate(index);
+        }
+        else if(FilQueue!=null){
+            fila=(Fila) FilQueue.current.getElemento();
+            return fila.getDate(index);
+        }
+        else{
+            fila=(Fila) FilStack.top.getElemento();
+            return fila.getDate(index);
+        }
     }
 
     @Override
     public String getString(int index) throws IndexOutOfBoundsException {
-        fila=(Fila) Filas.current.getElemento();
-        return (String) fila.getString(index);
+        if(FilasEnlazadas!=null){
+            fila=(Fila) FilasEnlazadas.current.getElemento();
+            return fila.getString(index);
+        }
+        else if(FilDobleEnlazada!=null){
+            fila=(Fila) FilDobleEnlazada.current.getElemento();
+            return fila.getString(index);
+        }
+        else if(FilQueue!=null){
+            fila=(Fila) FilQueue.current.getElemento();
+            return fila.getString(index);
+        }
+        else{
+            fila=(Fila) FilStack.top.getElemento();
+            return fila.getString(index);
+        }
     }
 
     @Override
     public Object getObject(int index) throws IndexOutOfBoundsException {
-        fila=(Fila) Filas.current.getElemento();
-        return (Object) fila.getObject(index);
+        if(FilasEnlazadas!=null){
+            fila=(Fila) FilasEnlazadas.current.getElemento();
+            return fila.getObject(index);
+        }
+        else if(FilDobleEnlazada!=null){
+            fila=(Fila) FilDobleEnlazada.current.getElemento();
+            return fila.getObject(index);
+        }
+        else if(FilQueue!=null){
+            fila=(Fila) FilQueue.current.getElemento();
+            return fila.getObject(index);
+        }
+        else{
+            fila=(Fila) FilStack.top.getElemento();
+            return fila.getObject(index);
+        }
     }
 
     @Override
     public boolean isNull(int index) throws IndexOutOfBoundsException {
-        fila=(Fila) Filas.current.getElemento();
-        return fila.isNull(index);
+        if(FilasEnlazadas!=null){
+            fila=(Fila) FilasEnlazadas.current.getElemento();
+            return fila.isNull(index);
+        }
+        else if(FilDobleEnlazada!=null){
+            fila=(Fila) FilDobleEnlazada.current.getElemento();
+            return fila.isNull(index);
+        }
+        else if(FilQueue!=null){
+            fila=(Fila) FilQueue.current.getElemento();
+            return fila.isNull(index);
+        }
+        else{
+            fila=(Fila) FilStack.top.getElemento();
+            return fila.isNull(index);
+        }
         
     }
 
@@ -84,19 +217,54 @@ public class FilaCursor implements RowCursor{
 
     @Override
     public boolean next() {
-     return Filas.next();
+        if(FilasEnlazadas!=null){
+            return FilasEnlazadas.next();
+        }
+        else if(FilDobleEnlazada!=null){
+            return FilDobleEnlazada.next();
+        }
+        else if(FilQueue!=null){
+            return FilQueue.dequeueBoolean();
+        }
+        else{
+            return FilStack.NextVerdadero();
+        }
     }
 
     @Override
     public int getCursorPosition() {
-        return Filas.getPosition();
+        if(FilasEnlazadas!=null){
+            return FilasEnlazadas.getPosition();
+        }
+        else if(FilDobleEnlazada!=null){
+            return FilDobleEnlazada.getPosition();
+        }
+        else if(FilQueue!=null){
+            return FilQueue.posicion();
+        }
+        else{
+            return FilStack.posicion();
+        }
     }
 
     @Override
     public void close() {
-        FilaFinal.append(Filas.current.getElemento());
-        Filas= FilaFinal;
-        
+        if(FilasEnlazadas!=null){
+            FilasEnlazadasFinal.append(FilasEnlazadas.current.getElemento());
+            FilasEnlazadas= FilasEnlazadasFinal;
+        }
+        else if(FilDobleEnlazada!=null){
+            FilDobleEnlazadaFinal.append(FilDobleEnlazada.current.getElemento());
+            FilDobleEnlazada= FilDobleEnlazadaFinal;
+        }
+        else if(FilQueue!=null){
+            FilQueueFinal.enqueue(FilQueue.current.getElemento());
+            FilQueue= FilQueueFinal;
+        }
+        else{
+            FilStackFinal.push(FilStack.top.getElemento());
+            FilStack= FilStackFinal;
+        }   
     }
 
     @Override

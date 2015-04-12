@@ -93,21 +93,27 @@ public class ListaEnlazada <T> implements LinearList<T>{
     }
 
     @Override
-    public void goToPos(int pos) {
-        if (pos < 0 || pos >= this.size) {
-            System.out.println("Posición inválida");
-            return;
+    public void goToPos(int pos) throws IndexOutOfBoundsException{
+        try{
+            if (pos < 0 || pos >= this.size) {
+                throw new IndexOutOfBoundsException();
+            }   
+            else if (pos > this.position) {
+                while (pos > this.position) {
+                    this.next();
+                }
+            } 
+            else if (pos < this.position) {
+                while (pos < this.position) {
+                    this.previous();
+                }
+            }
         }
-        if (pos > this.position) {
-            while (pos > this.position) {
-                this.next();
-            }
-        } else if (pos < this.position) {
-            while (pos < this.position) {
-                this.previous();
-            }
+        catch(IndexOutOfBoundsException e){
+            System.out.println("Ponele un print");
         }
     }
+
 
     @Override
     public int getPositionOfElement(T element) {
@@ -234,6 +240,7 @@ public class ListaEnlazada <T> implements LinearList<T>{
         System.out.println(Lista.next());
         System.out.println(Lista.getElement());
         System.out.println(Lista.next());
-        
+        System.out.println("/************************");
+        Lista.goToPos(10);
     }
 }    

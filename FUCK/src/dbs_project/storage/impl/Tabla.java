@@ -84,7 +84,7 @@ public class Tabla implements Table{
             Fils= (Fila) FilCursor.FilasEnlazadas.current.getElemento();
             int compara=Fils.getMetaData().getId();    
             if (compara==rowID){
-                FilEnlazada.delete(i-1);
+                FilEnlazada.remove();
                 return;
             }
             else{
@@ -142,24 +142,41 @@ public class Tabla implements Table{
 
     @Override
     public Row getRow(int rowId) throws NoSuchRowException {
-        FilCursor = new FilaCursor(FilEnlazada);
-        Fila Fils;
-        int i=0;
-        while(i<=FilCursor.FilasEnlazadas.size()){
-            FilCursor.FilasEnlazadas.goToPos(i-1);
-            System.out.println(FilCursor.FilasEnlazadas.getPosition());
-            Fils= (Fila) FilCursor.FilasEnlazadas.current.getElemento();
-            System.out.println("ID "+Fils.getMetaData().getId());
-            int compara=Fils.getMetaData().getId();
-            
-            if (compara==rowId){
-                return Fils;
+      
+            FilCursor = new FilaCursor(FilEnlazada);
+            System.out.println(FilCursor.FilasEnlazadas.size());
+
+            if(rowId>=FilCursor.FilasEnlazadas.size()){
+                System.out.println("ENTRAA");
+                throw new UnsupportedOperationException("Id no se encuentra en tabla");
             }
             else{
-                i++;
+                Fila Fils;
+                int i=0;
+                Fila temp = (Fila) FilCursor.FilasEnlazadas.head.getElemento();
+                System.out.println("temp: "+temp.getMetaData().getId());
+                if(temp.getMetaData().getId()==rowId){
+                    return (Row) temp;
+                }
+                else{
+                        while(i<FilCursor.FilasEnlazadas.size()){
+                            FilCursor.FilasEnlazadas.goToPos(i-1);
+                            //System.out.println(FilCursor.FilasEnlazadas.getPosition());
+                            Fils= (Fila) FilCursor.FilasEnlazadas.current.getElemento();
+                            //System.out.println("ID "+Fils.getMetaData().getId());
+                            int compara=Fils.getMetaData().getId();
+
+                            if (compara==rowId){
+                                return Fils;
+                            }
+                            else{
+                                i++;
+                            }
+                        }
+                    return null;
+                }
             }
-        }
-        return null;
+        
     }
 
     @Override
@@ -307,7 +324,7 @@ public class Tabla implements Table{
     System.out.println("Añade Fila2");           //1
     System.out.println(tabla.addRow(Fila2));
     
-    System.out.println("Añade Fila2");           //4
+    System.out.println("Añade Fila5");           //4
     System.out.println(tabla.addRow(Fila5));
     
     //*********************
@@ -317,44 +334,41 @@ public class Tabla implements Table{
     
     System.out.println("****************************************");
     FilaCursor Cursor = new FilaCursor(FilEnlazada);
-    System.out.println(Cursor.FilasCola);
+    Cursor.next();
     System.out.println("****************************************");
     System.out.println("Posicion: "+Cursor.getCursorPosition());
     System.out.println("ID: "+ Cursor.getMetaData().getId());
-    Fila temp =(Fila) Cursor.FilasEnlazadas.current.getElemento();
-    System.out.println("ID de Elemento: "+temp.getMetaData().getId()); 
+    Cursor.next();
+    
+    System.out.println("Posicion: "+Cursor.getCursorPosition());
+    System.out.println("ID: "+Cursor.getMetaData().getId()); 
+
+    Cursor.next();
+    System.out.println("Posicion: "+Cursor.getCursorPosition());
+    System.out.println("ID: "+Cursor.getMetaData().getId()); 
+
+    Cursor.next();
+    System.out.println("Posicion: "+Cursor.getCursorPosition());
+    System.out.println("ID: "+Cursor.getMetaData().getId()); 
     
     Cursor.next();
     System.out.println("Posicion: "+Cursor.getCursorPosition());
     System.out.println("ID: "+Cursor.getMetaData().getId()); 
-    Fila temp1 =(Fila) Cursor.FilasEnlazadas.current.getElemento();
-    System.out.println("ID de Elemento: "+temp1.getMetaData().getId());
-    
-    Cursor.next();
-    System.out.println("Posicion: "+Cursor.getCursorPosition());
-    System.out.println("ID: "+Cursor.getMetaData().getId()); 
-    Fila temp2 =(Fila) Cursor.FilasEnlazadas.current.getElemento();
-    System.out.println("ID de Elemento: "+temp2.getMetaData().getId());
-    
-    Cursor.next();
-    System.out.println("Posicion: "+Cursor.getCursorPosition());
-    System.out.println("ID: "+Cursor.getMetaData().getId()); 
-    Fila temp3 =(Fila) Cursor.FilasEnlazadas.current.getElemento();
-    System.out.println("ID de Elemento: "+temp3.getMetaData().getId());
     
     System.out.println("*****************************************"); 
-    
-    System.out.println("Fila ID3  "+tabla.getRow(1));
-    System.out.println("Estructura de Datos de Cursor  "+Cursor.getType());
-    //tabla.getRows(DataStructure.DOUBLYLINKEDLIST);
+    System.out.println("*****************************************"); 
+
+    System.out.println("Fila ID 5: "+tabla.getRow(5).getMetaData().getId());
     //System.out.println("Estructura de Datos de Cursor  "+Cursor.getType());
+    
+    System.out.println("*****************************************"); 
     System.out.println("*****************************************");
-    tabla.deleteRow(2);
+    /**tabla.deleteRow(2);
     System.out.println("Eliminar ID 3");
     System.out.println("Buscando ID 2 "+tabla.getRow(3));
     
 
-    //*********************
+    //**********************/
     }
 }
  
