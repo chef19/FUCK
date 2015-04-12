@@ -309,17 +309,34 @@ public class Tabla implements Table{
     @Override
     public void updateColumn(int columnId, Column updateColumn) throws SchemaMismatchException, NoSuchColumnException {
         ColumnaCursor = new CursorColumna(Columnas);
-        Columna Columna;
-        int i=0;
-        while(i<=ColumnaCursor.Columnas.size()){
-            Columna= (Columna) ColumnaCursor.Columnas.current.getElemento();
-            if (Columna.getMetaData().getId()==columnId){
-                ColumnaCursor.Columnas.current.setElemento(updateColumn);
+        if(columnId>=ColumnaCursor.Columnas.size()){
+            throw new NoSuchColumnException("Id no se encuentra en tabla");
+        }
+        else{
+            Columna Columna;
+            int i=0;
+            Columna temp = (Columna) ColumnaCursor.Columnas.head.getElemento();
+            System.out.println("temp: "+temp.getMetaData().getId());
+            if(temp.getMetaData().getId()==columnId){
+                System.out.println("FUNCIONAAAAAAAAAAAAAAA!!");
+                ColumnaCursor.Columnas.head.setElemento(updateColumn);
                 return;
             }
             else{
-                ColumnaCursor.next();
-                i++;
+                while(i<ColumnaCursor.Columnas.size()){
+                    ColumnaCursor.Columnas.goToPos(i-1);
+                    Columna= (Columna) ColumnaCursor.Columnas.current.getElemento();
+                    int compara=Columna.getMetaData().getId();
+                    if (compara==columnId){
+                        System.out.println("FUNCIONAAAAAAAAAAAAAAA!!");
+                        Columna = (Columna) ColumnaCursor.Columnas.current.getElemento();
+                        ColumnaCursor.Columnas.head.setElemento(updateColumn);
+                        return;
+                    }
+                    else{
+                        i++;
+                    }
+                }
             }
         }
     }
