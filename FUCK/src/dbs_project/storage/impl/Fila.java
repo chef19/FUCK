@@ -25,7 +25,10 @@ public class Fila implements Row {
         Datos= new FilaData(Fila,ID);
         ID++;
     }
-
+    public Fila(ListaEnlazada Fila, int ID){
+            this.Fila = Fila;    
+            Datos= new FilaData(Fila,ID);
+        }
     
     @Override
     public RowMetaData getMetaData() {

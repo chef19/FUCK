@@ -265,8 +265,36 @@ public class Tabla implements Table{
 
     @Override
     public void updateRow(int rowID,Row newRow) throws SchemaMismatchException, NoSuchRowException {
-        FilEnlazada.goToPos(rowID);
-        
+        FilCursor = new FilaCursor(FilEnlazada);
+        ListaEnlazada tempLista= new ListaEnlazada();
+
+            if(rowID>=FilCursor.FilasEnlazadas.size()){
+                throw new NoSuchRowException("ID no se encuentra en tabla");
+            }
+            else{
+                Fila Fils;
+                int i=0;
+                Fila temp = (Fila) FilCursor.FilasEnlazadas.head.getElemento();
+                System.out.println("temp: "+temp.getMetaData().getId());
+                if(temp.getMetaData().getId()==rowID){
+                    Fila ElementoACambiar = (Fila) FilCursor.FilasEnlazadas.current.getElemento();
+                        FilCursor.FilasEnlazadas.current.setElemento(newRow);
+                }
+                else{
+                        while(i<FilCursor.FilasEnlazadas.size()){
+                            FilCursor.FilasEnlazadas.goToPos(i-1);
+                            Fils= (Fila) FilCursor.FilasEnlazadas.current.getElemento();
+                            int compara=Fils.getMetaData().getId();
+
+                            if (compara==rowID){
+                                FilCursor.FilasEnlazadas.current.setElemento(newRow);
+                            }
+                            else{
+                                i++;
+                            }
+                        }
+                }
+            }    
     }
     @Override
     public void updateRows(IntIterator rowIDs, RowCursor newRows) throws SchemaMismatchException, NoSuchRowException {
