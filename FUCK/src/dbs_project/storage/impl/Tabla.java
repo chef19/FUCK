@@ -36,6 +36,7 @@ public class Tabla implements Table{
         
     
     public Tabla(){
+        Columnas = new ListaEnlazada();
         FilEnlazada = new ListaEnlazada();
         FilDobleEnlazada= new ListaDobleEnlazada();
         FilQueue = new Cola();
@@ -43,13 +44,48 @@ public class Tabla implements Table{
     }
     @Override
     public void renameColumn(int columnId, String newColumnName) throws ColumnAlreadyExistsException, NoSuchColumnException {
-        
+        ColumnaCursor = new CursorColumna(Columnas);
+        if(columnId>=ColumnaCursor.Columnas.size()){
+            throw new NoSuchColumnException("Id no se encuentra en tabla");
+        }
+        else{
+            Columna Columna;
+            int i=0;
+            Columna temp = (Columna) ColumnaCursor.Columnas.head.getElemento();
+            System.out.println("temp: "+temp.getMetaData().getId());
+            if(temp.getMetaData().getId()==columnId){
+                System.out.println("FUNCIONAAAAAAAAAAAAAAA!!");
+                Columna = (Columna) ColumnaCursor.Columnas.head.getElemento();
+                Columna NuevaColumna = new Columna(Columna.Columna, newColumnName,
+                            Columna.getMetaData().getType(),Columna.getMetaData().getId(),this);
+                ColumnaCursor.Columnas.head.setElemento(NuevaColumna);
+                return;
+            }
+            else{
+                while(i<ColumnaCursor.Columnas.size()){
+                    ColumnaCursor.Columnas.goToPos(i-1);
+                    Columna= (Columna) ColumnaCursor.Columnas.current.getElemento();
+                    int compara=Columna.getMetaData().getId();
+                    if (compara==columnId){
+                        System.out.println("FUNCIONAAAAAAAAAAAAAAA!!");
+                        Columna = (Columna) ColumnaCursor.Columnas.current.getElemento();
+                        Columna NuevaColumna = new Columna(Columna.Columna, newColumnName,
+                                    Columna.getMetaData().getType(),Columna.getMetaData().getId(),this);
+                        ColumnaCursor.Columnas.current.setElemento(NuevaColumna);
+                        return;
+                    }
+                    else{
+                        i++;
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public int createColumn(String columnName, Type columnType) throws ColumnAlreadyExistsException {
         ListaEnlazada Lista = new ListaEnlazada();
-        Columna Columna = new Columna(Lista, columnName, columnType);
+        Columna Columna = new Columna(Lista, columnName, columnType, this);
         return(Columna.Datos.getId());
     }
 
@@ -66,7 +102,8 @@ public class Tabla implements Table{
 
     @Override
     public int addColumn(Column column) throws SchemaMismatchException, ColumnAlreadyExistsException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Columnas.append(column);
+        return column.getMetaData().getId();
     }
 
     @Override
@@ -77,33 +114,32 @@ public class Tabla implements Table{
     @Override
     public void deleteRow(int rowID) throws NoSuchRowException {
         FilCursor = new FilaCursor(FilEnlazada);
-
-            if(rowID>=FilCursor.FilasEnlazadas.size()){
-                throw new NoSuchRowException("Id no se encuentra en tabla");
+        if(rowID>=FilCursor.FilasEnlazadas.size()){
+            throw new NoSuchRowException("Id no se encuentra en tabla");
+        }
+        else{
+            Fila Fils;
+            int i=0;
+            Fila temp = (Fila) FilCursor.FilasEnlazadas.head.getElemento();
+            System.out.println("temp: "+temp.getMetaData().getId());
+            if(temp.getMetaData().getId()==rowID){
+                FilCursor.FilasEnlazadas.remove();
             }
             else{
-                Fila Fils;
-                int i=0;
-                Fila temp = (Fila) FilCursor.FilasEnlazadas.head.getElemento();
-                System.out.println("temp: "+temp.getMetaData().getId());
-                if(temp.getMetaData().getId()==rowID){
-                    FilCursor.FilasEnlazadas.remove();
-                }
-                else{
-                        while(i<FilCursor.FilasEnlazadas.size()){
-                            FilCursor.FilasEnlazadas.goToPos(i-1);
-                            Fils= (Fila) FilCursor.FilasEnlazadas.current.getElemento();
-                            int compara=Fils.getMetaData().getId();
+                while(i<FilCursor.FilasEnlazadas.size()){
+                    FilCursor.FilasEnlazadas.goToPos(i-1);
+                    Fils= (Fila) FilCursor.FilasEnlazadas.current.getElemento();
+                    int compara=Fils.getMetaData().getId();
 
-                            if (compara==rowID){
-                                FilCursor.FilasEnlazadas.remove();
-                            }
-                            else{
-                                i++;
-                            }
-                        }
+                    if (compara==rowID){
+                        FilCursor.FilasEnlazadas.remove();
+                    }
+                    else{
+                        i++;
+                    }
                 }
             }
+        }
     }
 
     @Override
@@ -116,7 +152,32 @@ public class Tabla implements Table{
 
     @Override
     public void dropColumn(int columnId) throws NoSuchColumnException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ColumnaCursor = new CursorColumna(Columnas);
+        if(columnId>=ColumnaCursor.Columnas.size()){
+            throw new NoSuchColumnException("Id no se encuentra en tabla");
+        }
+        else{
+            Columna Columna;
+            int i=0;
+            Columna temp = (Columna) ColumnaCursor.Columnas.head.getElemento();
+            System.out.println("temp: "+temp.getMetaData().getId());
+            if(temp.getMetaData().getId()==columnId){
+                ColumnaCursor.Columnas.remove();
+            }
+            else{
+                while(i<ColumnaCursor.Columnas.size()){
+                    ColumnaCursor.Columnas.goToPos(i-1);
+                    Columna= (Columna) ColumnaCursor.Columnas.current.getElemento();
+                    int compara=Columna.getMetaData().getId();
+                    if (compara==columnId){
+                        ColumnaCursor.Columnas.remove();
+                    }
+                    else{
+                        i++;
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -127,19 +188,33 @@ public class Tabla implements Table{
     @Override
     public Column getColumn(int columnId) throws NoSuchColumnException {
         ColumnaCursor = new CursorColumna(Columnas);
-        Columna Columna;
-        int i=0;
-        while(i<=ColumnaCursor.Columnas.size()){
-            Columna= (Columna) ColumnaCursor.Columnas.current.getElemento();
-            if (Columna.getMetaData().getId()==columnId){
-                return Columna;
+        if(columnId>=ColumnaCursor.Columnas.size()){
+            throw new NoSuchColumnException("Id no se encuentra en tabla");
+        }
+        else{
+            Columna Columna;
+            int i=0;
+            Columna temp = (Columna) ColumnaCursor.Columnas.head.getElemento();
+            System.out.println("temp: "+temp.getMetaData().getId());
+            if(temp.getMetaData().getId()==columnId){
+                return (Column) temp;
             }
             else{
-                ColumnaCursor.next();
-                i++;
+                while(i<ColumnaCursor.Columnas.size()){
+                    ColumnaCursor.Columnas.goToPos(i-1);
+                    Columna= (Columna) ColumnaCursor.Columnas.current.getElemento();
+                    int compara=Columna.getMetaData().getId();
+
+                    if (compara==columnId){
+                        return Columna;
+                    }
+                    else{
+                        i++;
+                    }
+                }
+                return null;
             }
         }
-        return null;
     }
 
     @Override
@@ -280,102 +355,200 @@ public class Tabla implements Table{
         return null;
     }
     
-    public static void main(String[] args) throws SchemaMismatchException, NoSuchRowException {
+    public static void main(String[] args) throws SchemaMismatchException, NoSuchRowException, ColumnAlreadyExistsException, NoSuchColumnException {
         // TODO code application logic here
-    ListaEnlazada Lista1= new ListaEnlazada();
-    ListaEnlazada Lista2= new ListaEnlazada();
-    ListaEnlazada Lista3= new ListaEnlazada();
-    ListaEnlazada Lista4= new ListaEnlazada();
-    ListaEnlazada Lista5= new ListaEnlazada();
-    ListaEnlazada FilasD= new ListaEnlazada();
-    //*********************
-    Lista1.append(1);
-    Lista1.append(2);
-    //*********************
-    Lista2.append(3);
-    Lista2.append(4);
-    Lista2.append(5);
-    Lista2.append(6);
-    //*********************
-    Lista3.append(7);
-    //*********************
-    Lista4.append(8);
-    Lista4.append(9);
-    Lista4.append(10);
     
-    Lista5.append(10);
-    //*********************
-    Tabla tabla=new Tabla();
-    //*********************
-    Fila Fila1 =new Fila(Lista1);
-    Fila Fila2 =new Fila(Lista2);
-    Fila Fila3 =new Fila(Lista3);
-    Fila Fila4 =new Fila(Lista4);
-    Fila Fila5 =new Fila(Lista5);
-    
-    FilasD.append(Fila1);// 0
-    FilasD.append(Fila2);// 1
-    FilasD.append(Fila3);// 2
-    FilasD.append(Fila4);// 3
-    FilasD.append(Fila5);// 4
-    //*********************    
-    System.out.println("Añade Fila4");           //3
-    System.out.println(tabla.addRow(Fila4));
-    
-    System.out.println("Añade Fila3");           //2
-    System.out.println(tabla.addRow(Fila3));
-    
-    System.out.println("Añade Fila1");           //0
-    System.out.println(tabla.addRow(Fila1));
-    
-    
-    
-    System.out.println("Añade Fila2");           //1
-    System.out.println(tabla.addRow(Fila2));
-    
-    System.out.println("Añade Fila5");           //4
-    System.out.println(tabla.addRow(Fila5));
-    
-    //*********************
-    System.out.println("Cantidad de Filas");
-    System.out.println(FilEnlazada.size());
-    //*********************
-    
-    System.out.println("****************************************");
-    FilaCursor Cursor = new FilaCursor(FilEnlazada);
-    Cursor.next();
-    System.out.println("****************************************");
-    System.out.println("Posicion: "+Cursor.getCursorPosition());
-    System.out.println("ID: "+ Cursor.getMetaData().getId());
-    Cursor.next();
-    
-    System.out.println("Posicion: "+Cursor.getCursorPosition());
-    System.out.println("ID: "+Cursor.getMetaData().getId()); 
+        ListaEnlazada Lista1= new ListaEnlazada();
+        ListaEnlazada Lista2= new ListaEnlazada();
+        ListaEnlazada Lista3= new ListaEnlazada();
+        ListaEnlazada Lista4= new ListaEnlazada();
+        ListaEnlazada Lista5= new ListaEnlazada();
+        ListaEnlazada ColumnasD= new ListaEnlazada();
+        //*********************
+        Lista1.append(1);
+        Lista1.append(2);
+        //*********************
+        Lista2.append(3);
+        Lista2.append(4);
+        Lista2.append(5);
+        Lista2.append(6);
+        //*********************
+        Lista3.append(7);
+        //*********************
+        Lista4.append(8);
+        Lista4.append(9);
+        Lista4.append(10);
 
-    Cursor.next();
-    System.out.println("Posicion: "+Cursor.getCursorPosition());
-    System.out.println("ID: "+Cursor.getMetaData().getId()); 
+        Lista5.append(10);
+        //*********************
+        Tabla tabla=new Tabla();
+        //*********************
+        Columna Columna1 =new Columna(Lista1, "1 a 3", Type.INTEGER, tabla);
+        Columna Columna2 =new Columna(Lista2, "4 a 6", Type.INTEGER, tabla);
+        Columna Columna3 =new Columna(Lista3, "7 a 9", Type.INTEGER, tabla);
+        Columna Columna4 =new Columna(Lista4, "10 a 12", Type.INTEGER, tabla);
+        Columna Columna5 =new Columna(Lista5, "13 a 15", Type.INTEGER, tabla);
 
-    Cursor.next();
-    System.out.println("Posicion: "+Cursor.getCursorPosition());
-    System.out.println("ID: "+Cursor.getMetaData().getId()); 
-    
-    Cursor.next();
-    System.out.println("Posicion: "+Cursor.getCursorPosition());
-    System.out.println("ID: "+Cursor.getMetaData().getId()); 
-    
-    System.out.println("*****************************************"); 
-    System.out.println("*****************************************"); 
+        ColumnasD.append(Columna1);// 0
+        ColumnasD.append(Columna2);// 1
+        ColumnasD.append(Columna3);// 2
+        ColumnasD.append(Columna4);// 3
+        ColumnasD.append(Columna5);// 4
+        //*********************    
+        System.out.println("Añade Columna4");           //3
+        System.out.println(tabla.addColumn(Columna4));
 
-    System.out.println("Fila ID 5: "+tabla.getRow(5).getMetaData().getId());
-    //System.out.println("Estructura de Datos de Cursor  "+Cursor.getType());
-    
-    System.out.println("*****************************************"); 
-    System.out.println("*****************************************");
-    tabla.deleteRow(4);
-    System.out.println("Eliminar ID 4");
-    System.out.println("Buscando ID 4 "+tabla.getRow(4));
-    
+        System.out.println("Añade Columna3");           //2
+        System.out.println(tabla.addColumn(Columna3));
+
+        System.out.println("Añade Columna1");           //0
+        System.out.println(tabla.addColumn(Columna1));
+
+        System.out.println("Añade Columna2");           //1
+        System.out.println(tabla.addColumn(Columna2));
+
+        System.out.println("Añade Columna5");           //4
+        System.out.println(tabla.addColumn(Columna5));
+
+        //*********************
+        System.out.println("Cantidad de Columnas");
+        System.out.println(Columnas.size());
+        //*********************
+
+        System.out.println("****************************************");
+        CursorColumna Cursor = new CursorColumna(Columnas);
+        System.out.println("****************************************");
+        System.out.println("Posicion: "+Cursor.getCursorPosition());
+        System.out.println("ID: "+ Cursor.getMetaData().getId());
+        Cursor.next();
+
+        System.out.println("Posicion: "+Cursor.getCursorPosition());
+        System.out.println("ID: "+Cursor.getMetaData().getId()); 
+
+        Cursor.next();
+        System.out.println("Posicion: "+Cursor.getCursorPosition());
+        System.out.println("ID: "+Cursor.getMetaData().getId()); 
+
+        Cursor.next();
+        System.out.println("Posicion: "+Cursor.getCursorPosition());
+        System.out.println("ID: "+Cursor.getMetaData().getId()); 
+
+        Cursor.next();
+        System.out.println("Posicion: "+Cursor.getCursorPosition());
+        System.out.println("ID: "+Cursor.getMetaData().getId()); 
+
+        System.out.println("*****************************************"); 
+        System.out.println("*****************************************"); 
+        
+        System.out.println("Columna ID 2: "+tabla.getColumn(3).getMetaData().getName());
+        tabla.renameColumn(3, "NuevoNombre");
+        System.out.println("Columna ID 2: "+tabla.getColumn(3).getMetaData().getName());
+        /**
+        System.out.println("Cantidad de Columnas: "+Columnas.size());
+        System.out.println("Columna ID 3: "+tabla.getColumn(3).getMetaData().getId());
+        //System.out.println("Estructura de Datos de Cursor  "+Cursor.getType());
+
+        System.out.println("*****************************************"); 
+        System.out.println("*****************************************");
+        tabla.dropColumn(4);
+        System.out.println("Eliminar ID 4");
+        System.out.println("Buscando ID 4 "+tabla.getColumn(4));
+        
+        /**
+        ListaEnlazada Lista1= new ListaEnlazada();
+        ListaEnlazada Lista2= new ListaEnlazada();
+        ListaEnlazada Lista3= new ListaEnlazada();
+        ListaEnlazada Lista4= new ListaEnlazada();
+        ListaEnlazada Lista5= new ListaEnlazada();
+        ListaEnlazada FilasD= new ListaEnlazada();
+        //*********************
+        Lista1.append(1);
+        Lista1.append(2);
+        //*********************
+        Lista2.append(3);
+        Lista2.append(4);
+        Lista2.append(5);
+        Lista2.append(6);
+        //*********************
+        Lista3.append(7);
+        //*********************
+        Lista4.append(8);
+        Lista4.append(9);
+        Lista4.append(10);
+
+        Lista5.append(10);
+        //*********************
+        Tabla tabla=new Tabla();
+        //*********************
+        Fila Fila1 =new Fila(Lista1);
+        Fila Fila2 =new Fila(Lista2);
+        Fila Fila3 =new Fila(Lista3);
+        Fila Fila4 =new Fila(Lista4);
+        Fila Fila5 =new Fila(Lista5);
+
+        FilasD.append(Fila1);// 0
+        FilasD.append(Fila2);// 1
+        FilasD.append(Fila3);// 2
+        FilasD.append(Fila4);// 3
+        FilasD.append(Fila5);// 4
+        //*********************    
+        System.out.println("Añade Fila4");           //3
+        System.out.println(tabla.addRow(Fila4));
+
+        System.out.println("Añade Fila3");           //2
+        System.out.println(tabla.addRow(Fila3));
+
+        System.out.println("Añade Fila1");           //0
+        System.out.println(tabla.addRow(Fila1));
+
+
+
+        System.out.println("Añade Fila2");           //1
+        System.out.println(tabla.addRow(Fila2));
+
+        System.out.println("Añade Fila5");           //4
+        System.out.println(tabla.addRow(Fila5));
+
+        //*********************
+        System.out.println("Cantidad de Filas");
+        System.out.println(FilEnlazada.size());
+        //*********************
+
+        System.out.println("****************************************");
+        FilaCursor Cursor = new FilaCursor(FilEnlazada);
+        Cursor.next();
+        System.out.println("****************************************");
+        System.out.println("Posicion: "+Cursor.getCursorPosition());
+        System.out.println("ID: "+ Cursor.getMetaData().getId());
+        Cursor.next();
+
+        System.out.println("Posicion: "+Cursor.getCursorPosition());
+        System.out.println("ID: "+Cursor.getMetaData().getId()); 
+
+        Cursor.next();
+        System.out.println("Posicion: "+Cursor.getCursorPosition());
+        System.out.println("ID: "+Cursor.getMetaData().getId()); 
+
+        Cursor.next();
+        System.out.println("Posicion: "+Cursor.getCursorPosition());
+        System.out.println("ID: "+Cursor.getMetaData().getId()); 
+
+        Cursor.next();
+        System.out.println("Posicion: "+Cursor.getCursorPosition());
+        System.out.println("ID: "+Cursor.getMetaData().getId()); 
+
+        System.out.println("*****************************************"); 
+        System.out.println("*****************************************"); 
+
+        System.out.println("Fila ID 5: "+tabla.getRow(5).getMetaData().getId());
+        //System.out.println("Estructura de Datos de Cursor  "+Cursor.getType());
+
+        System.out.println("*****************************************"); 
+        System.out.println("*****************************************");
+        tabla.deleteRow(4);
+        System.out.println("Eliminar ID 4");
+        System.out.println("Buscando ID 4 "+tabla.getRow(4));
+        
 
     //**********************/
     }

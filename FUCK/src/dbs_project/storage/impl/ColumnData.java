@@ -21,25 +21,12 @@ public class ColumnData implements ColumnMetaData{
     public int ID;
     public FilaCursor Cursor;
     
-    public ColumnData(ListaEnlazada Columna, int ID, String Name, Tabla Tabla){
-        this.Columna = Columna;
-        this.ID = ID;
-        this.Name = Name;
-        this.Tabla = Tabla;
-    }
-    
-    public ColumnData(ListaEnlazada Columna, int ID, String Name, Type DataType){
+    public ColumnData(ListaEnlazada Columna, int ID, String Name, Type DataType, Tabla Tabla){
         this.Columna = Columna;
         this.ID = ID;
         this.Name = Name;
         this.DataType = DataType;
-    }
-    
-    public ColumnData(ListaEnlazada Columna, int ID, String Name, FilaCursor Cursor){
-        this.Columna = Columna;
-        this.ID = ID;
-        this.Name = Name;
-        this.Cursor = Cursor;
+        this.Tabla = Tabla;
     }
     
     @Override
@@ -59,7 +46,7 @@ public class ColumnData implements ColumnMetaData{
 
     @Override
     public Type getType() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return DataType;
     }
 
     @Override

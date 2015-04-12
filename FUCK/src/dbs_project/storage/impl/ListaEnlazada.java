@@ -104,23 +104,18 @@ public class ListaEnlazada <T> implements LinearList<T>{
 
     @Override
     public void goToPos(int pos) throws IndexOutOfBoundsException{
-        try{
-            if (pos < 0 || pos >= this.size) {
-                throw new IndexOutOfBoundsException();
-            }   
-            else if (pos > this.position) {
-                while (pos > this.position) {
-                    this.next();
-                }
-            } 
-            else if (pos < this.position) {
-                while (pos < this.position) {
-                    this.previous();
-                }
+        if (pos < -1 || pos >= this.size) {
+            throw new IndexOutOfBoundsException();
+        }   
+        else if (pos > this.position) {
+            while (pos > this.position) {
+                this.next();
             }
-        }
-        catch(IndexOutOfBoundsException e){
-            System.out.println("Ponele un print");
+        } 
+        else if (pos < this.position) {
+            while (pos < this.position) {
+                this.previous();
+            }
         }
     }
 
