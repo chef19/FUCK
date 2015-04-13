@@ -66,9 +66,7 @@ public class Tabla implements Table{
         Columna Columna;
         int i=0;
         Columna temp = (Columna) ColumnaCursor.ColumnasEnlazadas.head.getElemento();
-        System.out.println("temp: "+temp.getMetaData().getId());
         if(temp.getMetaData().getId()==columnId){
-            System.out.println("FUNCIONAAAAAAAAAAAAAAA!!");
             Columna = (Columna) ColumnaCursor.ColumnasEnlazadas.head.getElemento();
             Columna NuevaColumna = new Columna(Columna.Columna, newColumnName,
                         Columna.getMetaData().getType(),Columna.getMetaData().getId(),this);
@@ -81,7 +79,6 @@ public class Tabla implements Table{
                 Columna= (Columna) ColumnaCursor.ColumnasEnlazadas.current.getElemento();
                 int compara=Columna.getMetaData().getId();
                 if (compara==columnId){
-                    System.out.println("FUNCIONAAAAAAAAAAAAAAA!!");
                     Columna = (Columna) ColumnaCursor.ColumnasEnlazadas.current.getElemento();
                     Columna NuevaColumna = new Columna(Columna.Columna, newColumnName,
                                 Columna.getMetaData().getType(),Columna.getMetaData().getId(),this);
@@ -131,7 +128,6 @@ public class Tabla implements Table{
         Fila Fils;
         int i=0;
         Fila temp = (Fila) FilCursor.FilasEnlazadas.head.getElemento();
-        System.out.println("temp: "+temp.getMetaData().getId());
         if(temp.getMetaData().getId()==rowID){
             FilCursor.FilasEnlazadas.remove();
             return;
@@ -168,9 +164,11 @@ public class Tabla implements Table{
         Columna Columna;
         int i=0;
         Columna temp = (Columna) ColumnaCursor.ColumnasEnlazadas.head.getElemento();
-        System.out.println("temp: "+temp.getMetaData().getId());
+        System.out.println(temp.getMetaData().getId());
         if(temp.getMetaData().getId()==columnId){
+            ColumnaCursor.ColumnasEnlazadas.goToPos(-1);
             ColumnaCursor.ColumnasEnlazadas.remove();
+            ColumnaCursor.ColumnasEnlazadas.next();
             return;
         }
         else{
@@ -201,7 +199,6 @@ public class Tabla implements Table{
         Columna Columna;
         int i=0;
         Columna temp = (Columna) ColumnaCursor.ColumnasEnlazadas.head.getElemento();
-        System.out.println("temp: "+temp.getMetaData().getId());
         if(temp.getMetaData().getId()==columnId){
             return (Column) temp;
         }
@@ -238,7 +235,6 @@ public class Tabla implements Table{
         Fila Fils;
         int i=0;
         Fila temp = (Fila) FilCursor.FilasEnlazadas.head.getElemento();
-        System.out.println("temp: "+temp.getMetaData().getId());
         if(temp.getMetaData().getId()==rowId){
             return (Row) temp;
         }
@@ -265,9 +261,7 @@ public class Tabla implements Table{
         Fila Fila1;
         int i=0;
         Fila temp = (Fila) FilCursor.FilasEnlazadas.head.getElemento();
-        System.out.println("temp: "+temp.getMetaData().getId());
         if(temp.getMetaData().getId()==rowID){
-            System.out.println("Cambia Primer Elemento!!");
             FilCursor.FilasEnlazadas.head.setElemento(newRow);
             return;
         }
@@ -277,7 +271,6 @@ public class Tabla implements Table{
                 Fila1= (Fila) FilCursor.FilasEnlazadas.current.getElemento();
                 int compara=Fila1.getMetaData().getId();
                 if (compara==rowID){
-                    System.out.println("Cambia Elemento!!");
                     Fila1 = (Fila) FilCursor.FilasEnlazadas.current.getElemento();
                     FilCursor.FilasEnlazadas.head.setElemento(newRow);
                     return;
@@ -305,9 +298,7 @@ public class Tabla implements Table{
         Columna Columna;
         int i=0;
         Columna temp = (Columna) ColumnaCursor.ColumnasEnlazadas.head.getElemento();
-        System.out.println("temp: "+temp.getMetaData().getId());
         if(temp.getMetaData().getId()==columnId){
-            System.out.println("FUNCIONAAAAAAAAAAAAAAA!!");
             ColumnaCursor.ColumnasEnlazadas.head.setElemento(updateColumn);
             return;
         }
@@ -317,7 +308,6 @@ public class Tabla implements Table{
                 Columna= (Columna) ColumnaCursor.ColumnasEnlazadas.current.getElemento();
                 int compara=Columna.getMetaData().getId();
                 if (compara==columnId){
-                    System.out.println("FUNCIONAAAAAAAAAAAAAAA!!");
                     Columna = (Columna) ColumnaCursor.ColumnasEnlazadas.current.getElemento();
                     ColumnaCursor.ColumnasEnlazadas.head.setElemento(updateColumn);
                     return;
@@ -517,12 +507,12 @@ public class Tabla implements Table{
 
         System.out.println("*****************************************"); 
         System.out.println("*****************************************");
-        System.out.println("Buscando ID 3 "+tabla.getColumn(3).getMetaData().getId());
+        System.out.println("Buscando ID 0 "+tabla.getColumn(0).getMetaData().getId());
         
-        tabla.dropColumn(3);
+        tabla.dropColumn(0);
         
-        System.out.println("Eliminar ID 3");
-        System.out.println("Buscando ID 3 "+tabla.getColumn(3).getMetaData().getId());
+        System.out.println("Eliminar ID 0");
+        System.out.println("Buscando ID 0 "+tabla.getColumn(0).getMetaData().getId());
         
         /**
         ListaEnlazada Lista1= new ListaEnlazada();

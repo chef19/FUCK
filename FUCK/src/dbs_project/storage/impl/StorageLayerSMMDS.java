@@ -45,7 +45,6 @@ public class StorageLayerSMMDS implements StorageLayer{
         Tabla Tabla;
         int i=0;
         Tabla temp = (Tabla) Tablas.head.getElemento();
-        System.out.println("temp: "+temp.getTableMetaData().getId());
         if(temp.getTableMetaData().getId()==tableID){
             Tablas.remove();
             return;
@@ -73,7 +72,6 @@ public class StorageLayerSMMDS implements StorageLayer{
         Tabla Tabla;
         int i=0;
         Tabla temp = (Tabla) Tablas.head.getElemento();
-        System.out.println("temp: "+temp.getTableMetaData().getId());
         if(temp.getTableMetaData().getId()==tableID){
             Tabla = (Tabla) Tablas.head.getElemento();
             Tabla NuevaTabla = new Tabla(newName, Tabla.getTableMetaData().getId());
@@ -105,7 +103,6 @@ public class StorageLayerSMMDS implements StorageLayer{
         Tabla Tabla;
         int i=0;
         Tabla temp = (Tabla) Tablas.head.getElemento();
-        System.out.println("temp: "+temp.getTableMetaData().getId());
         if(temp.getTableMetaData().getId()==tableID){
             return (Tabla) temp;
         }
