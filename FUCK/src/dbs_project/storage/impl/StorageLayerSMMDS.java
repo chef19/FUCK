@@ -236,7 +236,9 @@ public class StorageLayerSMMDS implements StorageLayer{
         
         System.out.println("Se busca ID 4");
         System.out.println(Prueba.getTable(4).getTableMetaData().getName());
-        Prueba.renameTable(4, );
+        Prueba.renameTable(4, "Nuevo Nombre de ID 4");
+        System.out.println("Se busca ID 4");
+        System.out.println(Prueba.getTable(4).getTableMetaData().getName());
         System.out.println("Se busca ID 5");
         System.out.println(Prueba.getTable(5).getTableMetaData().getName());
         System.out.println("Se busca ID 0");

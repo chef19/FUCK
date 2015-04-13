@@ -34,9 +34,13 @@ public class modificando_tabla {
         }
     }
     public void mostrar_valorcelda(JTable tabla){
-            String celda = (String) tabla.getValueAt(tabla.getSelectedRow(),tabla.getSelectedColumn());
-            System.out.println("El valor de la celda es: "+celda);
-            
+            int i = tabla.getSelectedRow();
+            if (i==-1){
+                JOptionPane.showMessageDialog(tabla, "No ha seleccionado ninguna celda");
+            }else{   
+                String celda = (String) tabla.getValueAt(tabla.getSelectedRow(),tabla.getSelectedColumn());
+                System.out.println("El valor de la celda es: "+celda);
+            }
     }
     public void eliminar_tabla(JTable tabla){
         tabla.setModel(new DefaultTableModel());

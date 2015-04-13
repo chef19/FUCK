@@ -17,20 +17,23 @@ import javax.swing.table.TableModel;
  */
 public class interfaz extends javax.swing.JFrame {
 modificando_tabla modifica=null;
+guardaTabla guarda=null;
 DefaultTableModel modelo = new DefaultTableModel(); 
 Queue Datos =null;
+String[]Columnas;
     /**
      * Creates new form interfaz
      */
     public interfaz() {
         initComponents();
         modifica = new modificando_tabla();
-        /**modelo.addColumn("Name");
+        guarda = new guardaTabla();
+        modelo.addColumn("Name");
         modelo.addColumn("Street");
         modelo.addColumn("Number Street");
         modelo.addColumn("City");
         this.tabla.setModel(modelo);
-        **/
+        
         
     }
 
@@ -57,6 +60,12 @@ Queue Datos =null;
         btn_intCelda = new javax.swing.JButton();
         btn_intColumna = new javax.swing.JButton();
         valor = new javax.swing.JButton();
+        GuardarCheck = new javax.swing.JCheckBox();
+        AbrirCheck = new javax.swing.JCheckBox();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        Btn_Aceptar = new javax.swing.JButton();
+        Prueba = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -141,6 +150,24 @@ Queue Datos =null;
             }
         });
 
+        GuardarCheck.setText("Guardar Tabla");
+
+        AbrirCheck.setText("Abrir Tabla");
+
+        Btn_Aceptar.setText("ACEPTAR");
+        Btn_Aceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_AceptarActionPerformed(evt);
+            }
+        });
+
+        Prueba.setText("Pruueba");
+        Prueba.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PruebaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -158,22 +185,34 @@ Queue Datos =null;
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_nuevaColumna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_nuevaFila, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_eliminarColumna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_eliminarFila, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(218, 218, 218)
-                                .addComponent(btn_intCelda)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_intColumna)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(valor))
-                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(GuardarCheck)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(text_nombreColumna, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(AbrirCheck))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btn_nuevaColumna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_nuevaFila, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_eliminarColumna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_eliminarFila, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(text_nombreColumna, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(218, 218, 218)
+                                        .addComponent(btn_intCelda)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btn_intColumna)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(valor)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(Prueba))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(Btn_Aceptar))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -191,7 +230,17 @@ Queue Datos =null;
                         .addGap(18, 18, 18)
                         .addComponent(btn_visualizarMetadatos))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(132, 132, 132)
+                .addGap(9, 9, 9)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(GuardarCheck)
+                    .addComponent(AbrirCheck))
+                .addGap(18, 18, 18)
+                .addComponent(Btn_Aceptar)
+                .addGap(14, 14, 14)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_nuevaColumna)
                     .addComponent(text_nombreColumna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -205,8 +254,9 @@ Queue Datos =null;
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_intCelda)
                     .addComponent(btn_intColumna)
-                    .addComponent(valor))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(valor)
+                    .addComponent(Prueba))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -217,9 +267,11 @@ Queue Datos =null;
         TableColumn col = new TableColumn(modelo.getColumnCount());
         Object nombre = text_nombreColumna.getText();
         System.out.println(nombre);
-        //modelo.addColumn(nombre);
-        col.setHeaderValue(nombre);
-        tabla.addColumn(col);
+        modelo.addColumn(nombre);
+        tabla.setModel(modelo);
+        //----tabla.setModel(new DefaultTableModel());
+       // col.setHeaderValue(nombre);
+        //tabla.addColumn(col);
     }//GEN-LAST:event_btn_nuevaColumnaActionPerformed
 
     private void btn_intCeldaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_intCeldaActionPerformed
@@ -279,6 +331,18 @@ Queue Datos =null;
         modelo.addRow(agrega);
     }//GEN-LAST:event_btn_nuevaFilaActionPerformed
 
+    private void Btn_AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AceptarActionPerformed
+        System.out.println(GuardarCheck.isSelected());
+        if (GuardarCheck.isSelected()){
+            guarda.GuardarColumna(tabla);
+        }
+    }//GEN-LAST:event_Btn_AceptarActionPerformed
+
+    private void PruebaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PruebaActionPerformed
+        // TODO add your handling code here:
+        System.out.println(guarda.pruebas(tabla));
+    }//GEN-LAST:event_PruebaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -315,6 +379,10 @@ Queue Datos =null;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox AbrirCheck;
+    private javax.swing.JButton Btn_Aceptar;
+    private javax.swing.JCheckBox GuardarCheck;
+    private javax.swing.JButton Prueba;
     private javax.swing.JButton btn_borrarTabla;
     private javax.swing.JButton btn_eliminarColumna;
     private javax.swing.JButton btn_eliminarFila;
@@ -325,6 +393,8 @@ Queue Datos =null;
     private javax.swing.JButton btn_nuevaFila;
     private javax.swing.JButton btn_visualizarMetadatos;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable tabla;
     private javax.swing.JTextField text_idTabla;
     private javax.swing.JTextField text_nombreColumna;
